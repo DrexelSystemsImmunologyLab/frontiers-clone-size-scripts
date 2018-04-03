@@ -22,9 +22,9 @@ bash run.sh D207
 ### Output
 There will be ten files output with names in the form `similarity_C`**instances**`_`**metric**`.tsv` where **instances** is the minimum number of instances (ranging from 1 to 5) and **metric** is the magnitude metric (`copies` and `instances`).  Each file contains cosine similarities between each pair of samples in the specified subject.
 
-# `diversity`: Rarefaction and diversity
+## `diversity`: Rarefaction and diversity
 You must install the [diversity](https://github.com/GregorySchwartz/diversity) package for this set of analyses.
-## Usage
+### Usage
 ```
 bash run.sh
 ```
@@ -41,7 +41,7 @@ bash run.sh
 ### Output
 There will be a `usage.tsv` file which specifies the V-gene usage frequency for each subject.  The frequency is given weighing each clone by three metrics: `clones` equally weighs each clone as 1, `clones_uniques` weighs each clone by number of unique sequences, `clones_instances` weighs each clone by number of instances, and `clones_copies` weighs each clone by copy number.
 
-# `metrics`: Miscellaneous metrics
+## `metrics`: Miscellaneous metrics
 ### Usage
 ```
 bash run.sh SUBJECT_IDENTIFIER
@@ -53,7 +53,7 @@ bash run.sh D207
 ### Output
 One file **subject**`_metrics.tsv` will contain various clonal metrics for instance cutoffs 1 through 20.
 
-# `shm`: Somatic hypermutation
+## `shm`: Somatic hypermutation
 ### Usage
 ```
 bash run.sh SUBJECT_IDENTIFIER
