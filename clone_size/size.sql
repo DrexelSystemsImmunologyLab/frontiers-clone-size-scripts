@@ -1,0 +1,1 @@
+ select clones.id, identifier, overall_unique_cnt, overall_total_cnt, (select count(*) from sequences where clone_id=clones.id) as instance_cnt from clones join subjects on subjects.id=clones.subject_id;
