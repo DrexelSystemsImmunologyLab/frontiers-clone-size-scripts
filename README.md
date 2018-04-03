@@ -3,7 +3,9 @@
 Each directory contains scripts that create output TSV files for their associated analysis.  They each include a `run.sh` file which is the entrypoint to that set of analysis.  A description of each directory along with output is below:
 
 ## Setup
-To start, **you must set the `DB_CONFIG`** environment variable to the path for an ImmuneDB database configuration.  Then, in the root directory run:
+To start, **you must set the `DB_CONFIG`** environment variable to the path for an ImmuneDB database configuration.  To use the database from the paper, set this to the path of the included `public_frontiers.json` file.
+
+Then, in the root directory run:
 ```
 pip install -r requirements.txt
 ```
