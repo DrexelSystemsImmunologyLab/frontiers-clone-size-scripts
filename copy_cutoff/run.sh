@@ -2,10 +2,13 @@ subs=`immunedb_sql $DB_CONFIG --query 'select identifier from subjects' --no-hea
 
 for subject in $subs
 do
-    immunedb_sql $DB_CONFIG --query \
-        "select (count(*) / (select count(*) from clones)) as count, overall_total_cnt as copies
+    sid=`immunedb_sql $DB_CONFIG --no-head --query \
+        "select id from subjects where identifier='${subject}'"`
+    immunedb_sql $DB_CONFIG --query "
+        select (count(*) / (select count(*) from clones where subject_id=$sid)) as fraction,
+               overall_total_cnt as copies
         from clones
-        where subject_id=(select id from subjects where identifier='${subject}')
-        group by overall_total_cnt order by count(*) desc" \
-            > copy_cutoff_${subject}.tsv
+        where subject_id=$sid
+        group by overall_total_cnt
+        order by count(*) desc" > copy_cutoff_${subject}.tsv
 done
