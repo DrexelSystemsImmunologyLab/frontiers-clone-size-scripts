@@ -10,6 +10,14 @@ Then, in the root directory run:
 pip install -r requirements.txt
 ```
 
+## `copy_cutoff`: Clone copy numbers 
+### Usage
+```
+bash run.sh
+```
+### Output
+One `copy_cutoff` TSV per subject with the number of copies and the fraction of the clonal repertoire containing that many copies.
+
 ## `cosine_sim`: Pairwise cosine similarity
 ### Usage
 ```
