@@ -18,6 +18,7 @@ def get_muts(clone):
         for mut_type, type_muts in region_muts.iteritems():
             key = 'replacement' if 'conservative' in mut_type else mut_type
             counts.update({key: m['total'] for m in type_muts})
+    counts['total'] = sum(counts.values())
     return counts
 
 
@@ -33,7 +34,7 @@ if __name__ == '__main__':
     )
 
     writer = csv.DictWriter(sys.stdout, delimiter='\t', fieldnames=[
-        'clone_id', 'size', 'subject', 'synonymous', 'replacement'
+        'clone_id', 'size', 'subject', 'synonymous', 'replacement', 'total',
     ], extrasaction='ignore')
     writer.writeheader()
     for clone in clones:

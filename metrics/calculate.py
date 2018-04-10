@@ -30,6 +30,7 @@ if __name__ == '__main__':
         if min_instances > 1:
             clones = clones.filter(
                 Clone.overall_instance_cnt >= min_instances)
+
         for metric in ('total', 'instance', 'unique'):
             proportions = [
                 getattr(c, 'overall_{}_cnt'.format(metric)) for c in clones
@@ -38,14 +39,20 @@ if __name__ == '__main__':
             proportions = [p/total for p in proportions]
             shannon_diversity = -sum([p * np.log(p) for p in proportions])
             simpson_index = sum([p ** 2 for p in proportions])
-
             pielous_evenness = shannon_diversity / np.log(len(proportions))
+            clonality = 1.0 / np.log(shannon_diversity)
+
+            count = sum(
+                getattr(c, 'overall_{}_cnt'.format(metric)) for c in clones
+            )
+
             instance_metrics[metric] = {
                 'shannon_diversity': shannon_diversity,
                 'pielous_evenness': pielous_evenness,
+                'count': count,
                 'richness': len(proportions),
                 'simpson_index': simpson_index,
-                'clonality': 1.0 / simpson_index,
+                'clonality': clonality,
             }
         metrics.append(pd.DataFrame.from_dict(instance_metrics,
                                               orient='index'))
