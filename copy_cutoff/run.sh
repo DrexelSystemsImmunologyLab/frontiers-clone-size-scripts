@@ -12,3 +12,5 @@ do
         group by overall_total_cnt
         order by count(*) desc" > copy_cutoff_${subject}.tsv
 done
+
+python combine.py
