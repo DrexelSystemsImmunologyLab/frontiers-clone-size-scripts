@@ -25,7 +25,8 @@ if __name__ == '__main__':
     )
 
     print 'Calculating instances'
-    instances = {(s.clone_id, s.sample_id): s.inst for s in session.query(
+    sample_instances = {
+        (s.clone_id, s.sample_id): s.inst for s in session.query(
         Sequence.clone_id,
         Sequence.sample_id,
         func.count(Sequence.seq_id).label('inst')
@@ -35,13 +36,23 @@ if __name__ == '__main__':
         Sequence.clone_id, Sequence.sample_id
     )}
 
+    instances = {s.clone_id: s.inst for s in session.query(
+        Sequence.clone_id,
+        Sequence.sample_id,
+        func.count(Sequence.seq_id).label('inst')
+    ).filter(
+        ~Sequence.clone_id.is_(None)
+    ).group_by(
+        Sequence.clone_id
+    )}
+
     print 'Writing files'
     for min_instances in args.min_instances:
         fhs = {}
         counted_uniques = set()
         for stat in stats:
             identifier = stat.sample.subject.identifier
-            clone_instances = instances.get((stat.clone_id, stat.sample_id), 0)
+            clone_instances = instances.get(stat.clone_id, 0)
             if clone_instances < min_instances:
                 continue
 
@@ -59,7 +70,7 @@ if __name__ == '__main__':
             sizes = '|'.join((str(s) for s in (
                 stat.total_cnt,
                 uniques,
-                clone_instances
+                sample_instances.get((stat.clone_id, stat.sample_id))
             )))
             fh.write('>{}|{}\n{}\n'.format(
                 stat.sample.name,
